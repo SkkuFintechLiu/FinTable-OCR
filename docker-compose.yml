@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5000
+      - MAX_CONCURRENT_PDF=1
+      - AUTO_OPEN_BROWSER=0
+      - PADDLE_PDX_CACHE_HOME=/app/.cache/paddlex_cache
+      - OMP_NUM_THREADS=1
+      - MKL_NUM_THREADS=1
+      - OPENBLAS_NUM_THREADS=1
+      - VECLIB_MAXIMUM_THREADS=1
+      - NUMEXPR_NUM_THREADS=1
+    volumes:
+      - ./uploads:/app/uploads
+      - ./build:/app/build
+      - ./.cache:/app/.cache
+

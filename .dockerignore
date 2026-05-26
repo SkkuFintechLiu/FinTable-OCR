@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv*/
+uploads/
+build/pyinstaller_app/
+build/pyinstaller_config/
+.trae/
+.git/
+.DS_Store
+

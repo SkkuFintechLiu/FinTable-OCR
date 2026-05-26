@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>有息债务数据提取工具</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="mark"></div>
+          <div class="brand-text">
+            <div class="brand-title">有息债务数据提取工具</div>
+            <div class="brand-subtitle">本地网络部署 · 批量解析 · 可追溯导出</div>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button id="exportBtn" class="btn btn-primary" type="button">导出 Excel</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="panel upload-panel">
+          <div class="panel-title">
+            <div class="panel-title-main">文件上传</div>
+            <div class="panel-title-sub">拖拽或点击选择 PDF（单次最多 50 个）</div>
+          </div>
+          <div id="dropzone" class="dropzone" role="button" tabindex="0">
+            <div class="dropzone-inner">
+              <div class="dropzone-title">拖拽 PDF 到这里</div>
+              <div class="dropzone-hint">或点击选择文件</div>
+              <input id="fileInput" class="file-input" type="file" accept="application/pdf" multiple />
+            </div>
+          </div>
+          <div class="upload-progress">
+            <div class="progress-row">
+              <div class="progress-label" id="progressLabel">等待上传</div>
+              <div class="progress-value" id="progressValue">0%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-inner" id="progressBar" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="upload-footer">
+            <button id="chooseBtn" class="btn btn-ghost" type="button">继续上传更多文件</button>
+            <button id="reprocessBtn" class="btn btn-ghost" type="button">提取 uploads 全部文件</button>
+            <div class="tiny-note" id="uploadTip"></div>
+          </div>
+        </section>
+
+        <section class="grid">
+          <section class="panel queue-panel">
+            <div class="panel-title">
+              <div class="panel-title-main">处理队列</div>
+              <div class="panel-title-sub" id="queueStats">0 个文件</div>
+            </div>
+            <div class="queue-table">
+              <div class="queue-head">
+                <div>文件</div>
+                <div>类型</div>
+                <div>发行人</div>
+                <div>年份</div>
+                <div>状态</div>
+                <div>置信度/页码</div>
+                <div>操作</div>
+              </div>
+              <div id="queueBody" class="queue-body"></div>
+            </div>
+          </section>
+
+          <section class="panel preview-panel">
+            <div class="panel-title">
+              <div class="panel-title-main">数据预览</div>
+              <div class="panel-title-sub" id="previewMeta">汇总预览（点击单元格可编辑，缺失字段黄底）</div>
+            </div>
+            <div class="preview-tools">
+              <div class="zoom-tools">
+                <button id="zoomOutBtn" class="zoom-btn" type="button" aria-label="缩小">-</button>
+                <input id="zoomRange" class="zoom-range" type="range" min="70" max="140" value="100" step="5" />
+                <button id="zoomInBtn" class="zoom-btn" type="button" aria-label="放大">+</button>
+                <button id="zoomResetBtn" class="zoom-reset" type="button" aria-label="重置为100%">重置</button>
+              </div>
+              <div id="zoomLabel" class="zoom-label">100%</div>
+            </div>
+            <div class="preview-wrap">
+              <div class="sheet-scroll" id="sheetScroll">
+                <table class="sheet-table" id="sheetTable">
+                  <thead id="sheetHead"></thead>
+                  <tbody id="sheetBody"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="source-bar" id="sourceBar"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-backdrop" id="modalBackdrop"></div>
+      <div class="modal-card">
+        <div class="modal-title">确认导出</div>
+        <div class="modal-stats" id="modalStats"></div>
+        <div class="modal-actions">
+          <button id="modalCancel" class="btn btn-ghost" type="button">取消</button>
+          <button id="modalConfirm" class="btn btn-primary" type="button">确认并导出</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/main.js"></script>
+  </body>
+</html>
