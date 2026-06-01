@@ -8,6 +8,9 @@ from typing import Optional
 
 
 def _default_cache_home() -> str:
+    if not getattr(sys, "frozen", False):
+        root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+        return os.path.join(root, ".cache", "paddlex_cache")
     base = ""
     if sys.platform == "darwin":
         base = os.path.join(os.path.expanduser("~"), "Library", "Caches")
